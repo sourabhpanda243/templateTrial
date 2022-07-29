@@ -39,9 +39,7 @@ stages:
           
           cat > Dockerfile <<EOF
          
-          FROM python:3.8-alpine as base
-
-          RUN mkdir /backend
+          FROM python:3.8-alpine
 
           COPY requirements.txt requirements.txt
 
