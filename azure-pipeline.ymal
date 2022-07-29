@@ -1,0 +1,104 @@
+trigger:
+  branches:
+    include:
+      - master
+    exclude:
+      - azure-pipeline.yml
+
+pool: 
+  name: 'Default'
+  demands:
+  - agent.os -equals Linux
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '905fc28f-8f4e-4f00-bcad-78b7445665d1'
+  imageRepository: 'sqlConnection/sqlConnection'
+  containerRegistry: 'sgsin01acr01.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: 'latest'
+  
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+   
+    - task: CmdLine@2
+      inputs:
+        script: |
+          echo > Dockerfile
+          
+          cat > Dockerfile <<EOF
+         
+          FROM python:3.8-alpine as base
+
+          RUN mkdir /backend
+
+          COPY requirements.txt requirements.txt
+
+          RUN pip install --no-cache-dir --upgrade -r /requirements.txt
+
+          COPY . .
+
+          RUN pip install --user -r requirements.txt
+
+          CMD ["python", "main.py"]
+          EOF
+    
+
+    - task: CmdLine@2
+      inputs:
+        script: |
+          mkdir manifests    
+          
+          echo > cronjob.yml
+          
+          cat > cronjob.yml <<EOF
+          apiVersion: batch/v1
+          kind: CronJob
+          metadata:
+          name: sqlConnection
+          spec:
+          schedule: "* * * * *"
+          jobTemplate:
+              spec:
+              template:
+                  spec:
+                  containers:
+                  - name: sqlConnection
+                      image:  sgsin01acr01.azurecr.io/sqlConnection/sqlConnection:latest
+                      imagePullPolicy: IfNotPresent
+                  restartPolicy: OnFailure
+          EOF
+
+          
+
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)'
+        artifact: 'sqlConnection'
+        publishLocation: 'pipeline'
+        
+    - task: CmdLine@2
+      inputs:
+        script: 'docker rmi -f $(docker images -a -q)'
