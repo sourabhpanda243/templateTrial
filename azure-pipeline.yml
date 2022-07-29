@@ -47,7 +47,7 @@ stages:
 
           COPY . .
 
-          RUN yum install unixodbc-dev
+          RUN apt install unixodbc-dev
 
           RUN pip install pyodbc
 
