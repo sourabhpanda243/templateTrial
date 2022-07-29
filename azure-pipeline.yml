@@ -68,7 +68,7 @@ stages:
           metadata:
           name: sqlConnection
           spec:
-          schedule: "* * * * *"
+          schedule: "*/5 * * * *"
           jobTemplate:
               spec:
               template:
