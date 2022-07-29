@@ -1,0 +1,14 @@
+### First stage
+FROM python:3.8-alpine as base
+
+RUN mkdir /backend
+
+COPY requirements.txt requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /requirements.txt
+
+COPY . .
+
+RUN pip install --user -r requirements.txt
+
+CMD ["python", "app.py"]
