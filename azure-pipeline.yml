@@ -67,18 +67,18 @@ stages:
           apiVersion: batch/v1
           kind: CronJob
           metadata:
-          name: sqlConnection
+            name: sqlConnection
           spec:
-          schedule: "*/5 * * * *"
-          jobTemplate:
+            schedule: "*/5 * * * *"
+            jobTemplate:
               spec:
-              template:
+                template:
                   spec:
-                  containers:
-                  - name: sqlConnection
+                    containers:
+                    - name: sqlConnection
                       image:  sgsin01acr01.azurecr.io/sqlConnection/sqlConnection:latest
                       imagePullPolicy: IfNotPresent
-                  restartPolicy: OnFailure
+                    restartPolicy: OnFailure
           EOF
 
           
