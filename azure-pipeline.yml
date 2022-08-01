@@ -44,7 +44,9 @@ stages:
           #Install FreeTDS and dependencies for PyODBC
           RUN apt-get update && apt-get install -y tdsodbc unixodbc-dev \
           && apt install unixodbc -y  \
-          && apt-get clean -y
+          && apt-get clean -y \
+          && pip install pyodbc
+
 
           RUN echo "[FreeTDS]\n\
           Description = FreeTDS unixODBC Driver\n\
@@ -69,7 +71,7 @@ stages:
           metadata:
             name: sql-connection
           spec:
-            schedule: "* * * * *"
+            schedule: "* * * * 0/5"
             jobTemplate:
               spec:
                 template:
