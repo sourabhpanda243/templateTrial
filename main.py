@@ -3,7 +3,7 @@ server = 'sgsin01sql001v.database.windows.net'
 database = 'control-tower-test-db'
 username = 'sourabh'
 password = '{admin@123}'   
-driver= '{ODBC Driver 13 for SQL Server}'
+driver= '{FreeTDS}'
 
 with pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
     with conn.cursor() as cursor:
