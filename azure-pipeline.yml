@@ -39,19 +39,26 @@ stages:
           
           cat > Dockerfile <<EOF
          
-          FROM python:3
+          # parent image
+          FROM python:3.7-slim
 
-          #Install FreeTDS and dependencies for PyODBC
-          RUN apt-get update && apt-get install -y tdsodbc unixodbc-dev \
-          && apt install unixodbc -y  \
-          && apt-get clean -y \
-          
+          # install FreeTDS and dependencies
+          RUN apt-get update \
+            && apt-get install unixodbc -y \
+            && apt-get install unixodbc-dev -y \
+            && apt-get install freetds-dev -y \
+            && apt-get install freetds-bin -y \
+            && apt-get install tdsodbc -y \
+            && apt-get install --reinstall build-essential -y
+
+          # populate "ocbcinst.ini"
           RUN echo "[FreeTDS]\n\
           Description = FreeTDS unixODBC Driver\n\
-          Driver = /usr/lib/arm-linux-gnueabi/odbc/libtdsodbc.so\n\
-          Setup = /usr/lib/arm-linux-gnueabi/odbc/libtdsS.so" >> /etc/odbcinst.ini
+          Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
+          Setup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so" >> /etc/odbcinst.ini
 
-          RUN pip install pyodbc==4.0.26
+          # install pyodbc (and, optionally, sqlalchemy)
+          RUN pip install --trusted-host pypi.python.org pyodbc==4.0.26 sqlalchemy==1.3.5
 
           COPY . .
           CMD ["python", "main.py"]
