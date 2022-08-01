@@ -71,7 +71,7 @@ stages:
           metadata:
             name: sql-connection
           spec:
-            schedule: "* * * * 0/5"
+            schedule: "*/30 * * * *"
             jobTemplate:
               spec:
                 template:
