@@ -45,8 +45,8 @@ stages:
           RUN apt-get update && apt-get install -y tdsodbc unixodbc-dev \
           && apt install unixodbc -y  \
           && apt-get clean -y \
-          && pip install pyodbc
-
+          
+          RUN pip install --trusted-host pypi.python.org pyodbc==4.0.26
 
           RUN echo "[FreeTDS]\n\
           Description = FreeTDS unixODBC Driver\n\
