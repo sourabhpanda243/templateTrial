@@ -39,26 +39,29 @@ stages:
           
           cat > Dockerfile <<EOF
          
-          FROM python:3.8-slim-buster
+          # parent image
+          FROM python:3.7-slim
 
-          WORKDIR /app
+          # install FreeTDS and dependencies
+          RUN apt-get update \
+            && apt-get install unixodbc -y \
+            && apt-get install unixodbc-dev -y \
+            && apt-get install freetds-dev -y \
+            && apt-get install freetds-bin -y \
+            && apt-get install tdsodbc -y \
+            && apt-get install --reinstall build-essential -y
 
-          ENV ACCEPT_EULA=Y
-          RUN apt-get update -y && apt-get update \
-            && apt-get install -y --no-install-recommends curl gcc g++ gnupg unixodbc-dev
+          # populate "ocbcinst.ini"
+          RUN echo "[FreeTDS]\n\
+          Description = FreeTDS unixODBC Driver\n\
+          Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
+          Setup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so" >> /etc/odbcinst.ini
 
-          RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-            && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
-            && apt-get update \
-            && apt-get install -y --no-install-recommends --allow-unauthenticated msodbcsql17 mssql-tools \
-            && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
-            && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-
-          COPY requirements.txt requirements.txt
-          RUN pip3 install -r requirements.txt
+          # install pyodbc (and, optionally, sqlalchemy)
+          RUN pip install --trusted-host pypi.python.org pyodbc==4.0.26 sqlalchemy==1.3.5
 
           COPY . .
-          CMD ["python3", "main.py"]
+          CMD ["python", "main.py"]
           EOF
     
 
