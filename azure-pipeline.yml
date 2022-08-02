@@ -54,8 +54,7 @@ stages:
           && apt-get install --reinstall build-essential -y
           # populate "ocbcinst.ini" as this is where ODBC driver config sits
 
-          RUN apt-get upgrade -y \
-          && apt-get update -y
+          #RUN apt-get upgrade -y \
           
           RUN echo "[FreeTDS]\n\
           Description = FreeTDS Driver\n\
