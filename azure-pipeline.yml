@@ -73,11 +73,10 @@ stages:
           
           cat > cronjob.yml <<EOF
           apiVersion: batch/v1beta1
-          kind: CronJob
+          kind: Job
           metadata:
             name: sql-connection
           spec:
-            schedule: "*/2 * * * *"
             jobTemplate:
               spec:
                 template:
