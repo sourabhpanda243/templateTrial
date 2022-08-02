@@ -42,7 +42,7 @@ stages:
           FROM python:3
           WORKDIR /app
           ADD requirements.txt .
-          ADD main.py .
+          ADD app.py .
           
           # install FreeTDS and dependencies
           RUN apt-get update \
@@ -63,7 +63,7 @@ stages:
           #Pip command without proxy setting
           RUN pip install -r requirements.txt
           
-          CMD ["python","-i","main.py"]
+          CMD ["python","-i","app.py"]
           EOF
     
 
