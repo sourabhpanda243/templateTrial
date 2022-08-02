@@ -77,6 +77,7 @@ stages:
           metadata:
             name: sql-connection
           spec:
+            backoffLimit: 0
             schedule: "*/2 * * * *"
             jobTemplate:
               spec:
@@ -86,7 +87,7 @@ stages:
                     - name: sql-connection
                       image:  sgsin01acr01.azurecr.io/sql-connection/sql-connection:latest
                       imagePullPolicy: IfNotPresent
-                    restartPolicy: OnFailure
+                    restartPolicy: Never
           EOF
 
           
