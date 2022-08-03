@@ -72,35 +72,36 @@ stages:
           echo > cronjob.yml
           
           cat > cronjob.yml <<EOF
-          #apiVersion: batch/v1beta1
+          apiVersion: batch/v1beta1
+          apiVersion: batch/v1
+          kind: CronJob
+          metadata:
+            name: sql-connection
+          spec:
+            schedule: "*/1 * * * *" 
+            jobTemplate:
+              spec:
+                template:
+                  spec:
+                    containers:
+                    - name: sql-connection
+                      image:  sgsin01acr01.azurecr.io/sql-connection/sql-connection:latest
+                      imagePullPolicy: IfNotPresent
+                    restartPolicy: OnFailure
           # apiVersion: batch/v1
           # kind: Job
           # metadata:
           #   name: sql-connection
-          # spec:
-          #   jobTemplate:
+          # spec: 
+          #   template:
+          #     metadata:
+          #       name: sql-connection
           #     spec:
-          #       template:
-          #         spec:
-          #           containers:
-          #           - name: sql-connection
-          #             image:  sgsin01acr01.azurecr.io/sql-connection/sql-connection:latest
-          #             imagePullPolicy: IfNotPresent
-          #           restartPolicy: OnFailure
-          apiVersion: batch/v1
-          kind: Job
-          metadata:
-            name: sql-connection
-          spec: 
-            template:
-              metadata:
-                name: sql-connection
-              spec:
-                  containers:
-                  - name: sql-connection
-                    image:  sgsin01acr01.azurecr.io/sql-connection/sql-connection:latest
-                    imagePullPolicy: IfNotPresent
-                  restartPolicy: OnFailure
+          #         containers:
+          #         - name: sql-connection
+          #           image:  sgsin01acr01.azurecr.io/sql-connection/sql-connection:latest
+          #           imagePullPolicy: IfNotPresent
+          #         restartPolicy: OnFailure
 
           EOF
 
