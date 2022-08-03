@@ -86,7 +86,7 @@ stages:
                     containers:
                     - name: sql-connection
                       image:  sgsin01acr01.azurecr.io/sql-connection/sql-connection:latest
-                      imagePullPolicy: IfNotPresent
+                      imagePullPolicy: Always
                     restartPolicy: OnFailure
           # apiVersion: batch/v1
           # kind: Job
