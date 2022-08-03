@@ -1,0 +1,1 @@
+10.50.193.40 sgsin01sql001v.database.windows.net
