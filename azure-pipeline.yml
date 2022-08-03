@@ -60,7 +60,7 @@ stages:
           RUN pip install -r requirements.txt
 
           COPY /modifyHostsFile.sh /home/user/modifyHostsFile.sh
-          RUN sudo chmod +x /home/user/modifyHostsFile.sh
+          RUN chmod +x /home/user/modifyHostsFile.sh
           CMD ["/bin/bash", "/home/user/run.sh"]
           
           CMD ["python","-i","app.py"]
