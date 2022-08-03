@@ -73,7 +73,7 @@ stages:
           
           cat > cronjob.yml <<EOF
           apiVersion: batch/v1beta1
-          apiVersion: batch/v1
+          #apiVersion: batch/v1
           kind: CronJob
           metadata:
             name: sql-connection
