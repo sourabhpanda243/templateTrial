@@ -106,7 +106,20 @@ stages:
                     image:  sgsin01acr01.azurecr.io/sql-connection/sql-connection:latest
                     imagePullPolicy: Always
                   restartPolicy: OnFailure
-
+          EOF
+          echo > service.yml
+          
+          cat > service.yml <<EOF
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: sql-connection
+          spec:
+            type: ClusterIP
+            ports:
+              - port: 1433
+            selector:
+              app: sql-connection
           EOF
 
           
