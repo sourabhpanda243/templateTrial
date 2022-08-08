@@ -57,15 +57,17 @@ stages:
           # Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
           # Setup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so" >> /etc/odbcinst.ini
           #Pip command without proxy setting
-          RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+          RUN sudo su
+            && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
             && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
-            && apt-get update -y \
-            && ACCEPT_EULA=Y apt-get install -y msodbcsql18 \
-            && ACCEPT_EULA=Y apt-get install -y mssql-tools18 \
+            && exiy \
+            && sudo apt-get update -y \
+            && sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 \
+            && sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18 \
             && echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc \
             && source ~/.bashrc \
-            && apt-get install -y unixodbc-dev \
-            && apt-get install -y libgssapi-krb5-2 \
+            && sudo apt-get install -y unixodbc-dev \
+            && sudo apt-get install -y libgssapi-krb5-2 \
 
           COPY /modifyHostsFile.sh /home/user/modifyHostsFile.sh
           RUN chmod +x /home/user/modifyHostsFile.sh
