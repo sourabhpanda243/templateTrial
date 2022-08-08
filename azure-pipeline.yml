@@ -60,7 +60,6 @@ stages:
           RUN su \
             && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
             && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
-            && exit \
             && apt-get update -y \
             && ACCEPT_EULA=Y apt-get install -y msodbcsql18 \
             && ACCEPT_EULA=Y apt-get install -y mssql-tools18 \
@@ -72,7 +71,7 @@ stages:
           COPY /modifyHostsFile.sh /home/user/modifyHostsFile.sh
           RUN chmod +x /home/user/modifyHostsFile.sh
           CMD ["/bin/bash", "/home/user/run.sh"]
-          RUN pip install -r requirements.txt
+          #RUN pip install -r requirements.txt
           CMD ["python","-i","app.py"]
          
           EOF
