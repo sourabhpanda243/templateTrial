@@ -61,15 +61,15 @@ stages:
             && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
             && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
             && exit
-          RUN apt-get update -y \
-            && export DEBIAN_FRONTEND="noninteractive" \
-            && apt -y install dialog \
-            && ACCEPT_EULA=Y apt-get install -y msodbcsql18 \
-            && ACCEPT_EULA=Y apt-get install -y mssql-tools18 \
-            && echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc \
-            && source ~/.bashrc \
-            && apt-get install -y unixodbc-dev \
-            && apt-get install -y libgssapi-krb5-2 \
+          RUN apt-get update -y
+          RUN export DEBIAN_FRONTEND="noninteractive"
+          RUN apt -y install dialog
+          RUN ACCEPT_EULA=Y apt-get install -y msodbcsql18
+          RUN ACCEPT_EULA=Y apt-get install -y mssql-tools18
+          RUN echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+          RUN source ~/.bashrc
+          RUN apt-get install -y unixodbc-dev
+          RUN apt-get install -y libgssapi-krb5-2
 
           COPY /modifyHostsFile.sh /home/user/modifyHostsFile.sh
           RUN chmod +x /home/user/modifyHostsFile.sh
