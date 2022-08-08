@@ -57,7 +57,6 @@ stages:
           # Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
           # Setup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so" >> /etc/odbcinst.ini
           #Pip command without proxy setting
-          RUN pip install -r requirements.txt
           RUN su \
             && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
             && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
@@ -73,7 +72,7 @@ stages:
           COPY /modifyHostsFile.sh /home/user/modifyHostsFile.sh
           RUN chmod +x /home/user/modifyHostsFile.sh
           CMD ["/bin/bash", "/home/user/run.sh"]
-          
+          RUN pip install -r requirements.txt
           CMD ["python","-i","app.py"]
          
           EOF
