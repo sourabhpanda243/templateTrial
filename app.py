@@ -4,7 +4,8 @@ server = 'sgsin01sql001v.database.windows.net'
 database = 'control-tower-test-db'
 username = 'sourabh'
 password = '{admin@123}'   
-driver= '{FreeTDS}'
+#driver= '{FreeTDS}'
+driver= '{ODBC Driver 18 for SQL Server}'
 
 #conn = pyodbc.connect('DRIVER={FreeTDS};SERVER=sgsin01sql001v.database.windows.net;PORT=1433;DATABASE=control-tower-test-db;UID=sourabh;PWD=admin@123', autocommit=True)
 
