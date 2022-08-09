@@ -39,6 +39,7 @@ stages:
           
           cat > Dockerfile <<EOF
           FROM python:3
+          EXPOSE 1433
           WORKDIR /app
           ADD requirements.txt .
           ADD app.py .
