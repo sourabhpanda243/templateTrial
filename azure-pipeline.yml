@@ -76,7 +76,7 @@ stages:
           # COPY /modifyHostsFile.sh /home/user/modifyHostsFile.sh
           # RUN chmod +x /home/user/modifyHostsFile.sh
           # CMD ["/bin/bash", "/home/user/run.sh"]
-          RUN echo "10.50.193.40 sgsin01sql001v.database.windows.net" >> /etc/hosts
+          # RUN echo "10.50.193.40 sgsin01sql001v.database.windows.net" >> /etc/hosts
           
           CMD ["python","-i","app.py"]
          
