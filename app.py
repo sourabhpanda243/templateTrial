@@ -3,7 +3,7 @@ print("Hello from Sourabh")
 server = 'sgsin01sql001v.database.windows.net'
 database = 'control-tower-test-db'
 username = 'sourabh'
-password = '{admin@1234}'   
+password = '{admin@123}'   
 #driver= '{FreeTDS}'
 driver= '{ODBC Driver 18 for SQL Server}'
 
