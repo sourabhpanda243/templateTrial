@@ -15,5 +15,5 @@ with pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE=
         cursor.execute("select * from dbo.Persons")
         row = cursor.fetchone()
         while row:
-            print (str(row[0]) + " " + str(row[1]))
+            print (str(row[0]) + " " + str(row[1])+ " " + str(row[2]))
             row = cursor.fetchone()
