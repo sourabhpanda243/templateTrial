@@ -44,20 +44,6 @@ stages:
           ADD requirements.txt .
           ADD app.py .
           
-          # # install FreeTDS and dependencies
-          # RUN apt-get update \
-          #   && apt-get install unixodbc -y \
-          #   && apt-get install unixodbc-dev -y \
-          #   && apt-get install freetds-dev -y \
-          #   && apt-get install freetds-bin -y \
-          #   && apt-get install tdsodbc -y \
-          #   && apt-get install --reinstall build-essential -y
-          # # populate "ocbcinst.ini" as this is where ODBC driver config sits
-          # RUN echo "[FreeTDS]\n\
-          # Description = FreeTDS Driver\n\
-          # Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
-          # Setup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so" >> /etc/odbcinst.ini
-          #Pip command without proxy setting
           RUN su \
             && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
             && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
@@ -73,10 +59,6 @@ stages:
           RUN apt-get install -y libgssapi-krb5-2
 
           RUN pip install -r requirements.txt
-          # COPY /modifyHostsFile.sh /home/user/modifyHostsFile.sh
-          # RUN chmod +x /home/user/modifyHostsFile.sh
-          # CMD ["/bin/bash", "/home/user/run.sh"]
-          # RUN echo "10.50.193.40 sgsin01sql001v.database.windows.net" >> /etc/hosts
           
           CMD ["python","-i","app.py"]
          
